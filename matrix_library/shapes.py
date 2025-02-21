@@ -2,15 +2,15 @@ import numpy as np
 import math
 import os
 
-# Pygame yüklenirken gereksiz uyarıları engelle
+# Hide PyGame notifications
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import pygame
 
-# Performans için boş tuval
+# Empty template
 empty_canvas = np.zeros((128 * 128), dtype=bool)
 
 
-# ✅ Ray-Casting Algoritması ile Nokta İçeride Mi Kontrolü
+# is the point inside check with Ray Casting Algorithm : 
 def ray_casting_contains_points(points: np.ndarray, vertices: np.ndarray) -> np.ndarray:
     result = np.zeros(len(points), dtype=bool)
 
@@ -30,7 +30,7 @@ def ray_casting_contains_points(points: np.ndarray, vertices: np.ndarray) -> np.
     return result
 
 
-# ✅ Çokgen (Polygon) Sınıfı
+# POLYGON CLASS: 
 class Polygon:
     def __init__(self, vertices: list, color: tuple = (255, 255, 255)):
         if len(vertices) < 3:
@@ -69,7 +69,7 @@ class Polygon:
         return (cx, cy)
 
 
-# ✅ Çember (Circle) Sınıfı
+# CIRCLE CLASS :
 class Circle:
     def __init__(self, radius: float, center: tuple, color: tuple = (255, 255, 255)):
         if radius <= 0:
@@ -84,7 +84,7 @@ class Circle:
         return distances <= self.radius
 
 
-# ✅ Çizgi (Line) Sınıfı
+# LINE CLASS:
 class Line(Polygon):
     def __init__(self, start: list, end: list, color: list = (255, 255, 255), thickness: float = 0.5):
         if start == end:
@@ -110,7 +110,7 @@ class Line(Polygon):
         return distances <= self.thickness
 
 
-# ✅ Çokgen Çizgili Dış Çerçeve (PolygonOutline)
+# (PolygonOutline)
 class PolygonOutline(Polygon):
     def __init__(self, vertices: list, color: tuple = (255, 255, 255), thickness: float = 1):
         super().__init__(vertices, color)
@@ -138,7 +138,7 @@ class PolygonOutline(Polygon):
         return np.logical_and(outer_mask, np.logical_not(inner_mask))
 
 
-# ✅ Çemberin Sadece Dış Çizgisi (CircleOutline)
+# (CircleOutline)
 class CircleOutline(PolygonOutline):
     def __init__(self, radius, center, color=(255, 255, 255), thickness=1):
         vertices = get_polygon_vertices(radius * 10, radius, center)
@@ -151,7 +151,7 @@ class CircleOutline(PolygonOutline):
         return np.logical_and(circle1_mask, np.logical_not(circle2_mask))
 
 
-# ✅ Çokgen Köşe Noktalarını Hesaplama Fonksiyonu
+# POLYGON corner ponint Calculating:
 def get_polygon_vertices(sides: int, radius: float = 1, center: tuple = (0, 0)) -> list:
     if sides < 3:
         raise ValueError("A polygon must have at least 3 sides")
